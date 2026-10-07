@@ -16,7 +16,7 @@ async function offlineModelData(name){
 }
 async function loadOfflineModel(name,loader){return loader.parseAsync(await offlineModelData(name),'');}
 const {OrbitControls,GLTFLoader}=THREE;
-document.querySelectorAll('#controls input,#controls select,#controls button').forEach(control=>{control.disabled=true;});
+document.querySelectorAll('#controls input:not([data-ui]),#controls select:not([data-ui]),#controls button:not([data-ui])').forEach(control=>{control.disabled=true;});
 const ModelState=(()=>{
 
 /** Pure view rules. Source vectors are XYZ mm; exported GLB is already Y-up m. */
@@ -864,7 +864,7 @@ function v5SetExplosion(value){
 function toggleV5ModuleGuide(){
  if(!design||busy||!v5Display)return;
  v5ModuleGuideStep=v5ModuleGuideStep?0:1;v5FloorLayout=false;v5SeparateMembers=false;
- $('moduleGuideDetails').open=!!v5ModuleGuideStep;
+ if(v5ModuleGuideStep)CoralUI.openModelTab('moduleGuideDetails');
  v5Isolate({explode:v5ModuleGuideStep?100:0});
 }
 
@@ -882,12 +882,7 @@ function toggleV5Floor(){
  }else{apply();fit(state.view);}
 }
 
-function toggleV5Interface(){
- const hidden=document.body.classList.toggle('v5-ui-hidden');
- $('hideInterface').textContent=hidden?'Mostrar controles · H':'Ocultar controles · H';
- $('hideInterface').setAttribute('aria-pressed',String(hidden));
- requestAnimationFrame(resize);canvas.focus();
-}
+function toggleV5Interface(){CoralUI.toggleInterface();requestAnimationFrame(resize);}
 
 function bindV5Display(){
  $('layeredModule').addEventListener('click',toggleV5LayeredModule);
@@ -896,12 +891,7 @@ function bindV5Display(){
  $('moduleGuidePrevious').addEventListener('click',()=>setV5ModuleGuideStep(v5ModuleGuideStep-1));
  $('moduleGuideNext').addEventListener('click',()=>setV5ModuleGuideStep(v5ModuleGuideStep+1));
  $('separateMembers').addEventListener('change',()=>{v5SeparateMembers=$('separateMembers').checked;apply();fit(state.view);});
- $('hideInterface').addEventListener('click',toggleV5Interface);
- document.addEventListener('keydown',event=>{
-  if(event.key.toLowerCase()==='h'&&!event.repeat&&!event.ctrlKey&&!event.altKey&&!event.metaKey&&!['INPUT','TEXTAREA','SELECT'].includes(event.target.tagName)){
-   event.preventDefault();toggleV5Interface();
-  }
- });
+
 }
 const $=id=>document.getElementById(id);
 const viewport=$('viewport'),canvas=$('scene');
@@ -914,7 +904,8 @@ const perspective=new THREE.PerspectiveCamera(38,1,.01,500);
 const orthographic=new THREE.OrthographicCamera(-5,5,5,-5,.01,500);
 let camera=perspective,renderer,controls,design,partsById,model,humans,state,loadedKey='';
 let meshIndex=new Map(),visibleParts=[],busy=false,renderScheduled=false,orthoSpan=10;
-let pointerStart=null,humanKey='',previousExploration=null;
+let pointerStart=null,humanKey='',previousExploration=null,previousViewportAspect=null;
+const selectionPointers=new Set();let multipleSelectionPointers=false;
 const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();
 
 function status(text){if($('status').textContent!==text)$('status').textContent=text;}
@@ -946,7 +937,15 @@ function render(){
 function resize(){
   if(!renderer)return;
   const width=Math.max(1,viewport.clientWidth),height=Math.max(1,viewport.clientHeight);
-  renderer.setSize(width,height,false);perspective.aspect=width/height;perspective.updateProjectionMatrix();
+  const aspect=width/height;
+  if(model&&controls&&previousViewportAspect!==null&&Math.abs(aspect-previousViewportAspect)>.001){
+    const scale=Math.min(1,previousViewportAspect)/Math.min(1,aspect);
+    if(camera.isPerspectiveCamera)camera.position.sub(controls.target).multiplyScalar(scale).add(controls.target);
+    else orthoSpan*=scale;
+  }
+  previousViewportAspect=aspect;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.75));
+  renderer.setSize(width,height,false);perspective.aspect=aspect;perspective.updateProjectionMatrix();
   orthographic.left=-orthoSpan*width/height/2;orthographic.right=orthoSpan*width/height/2;
   orthographic.top=orthoSpan/2;orthographic.bottom=-orthoSpan/2;orthographic.updateProjectionMatrix();render();
 }
@@ -989,7 +988,7 @@ function fit(view=state?.view||'perspective'){
 
 function selectPiece(id,open=false){
   state=changeState(design,state,{selected:id});apply();
-  if(open){$('pieceDetails').open=true;$('partInfo').scrollIntoView({block:'nearest',behavior:'auto'});}
+  if(open)CoralUI.openModelTab('pieceDetails','partInfo');
   if(state.selected)status(`Pieza ${state.selected} · ${partsById.get(state.selected)?.label||'Selección'}`);
 }
 
@@ -1178,10 +1177,20 @@ function bind(){
   $('clearSelection').addEventListener('click',()=>selectPiece(''));
   $('retry').addEventListener('click',()=>design?loadModel():initialize());
   canvas.addEventListener('keydown',keyboard);
-  canvas.addEventListener('pointerdown',event=>{pointerStart=[event.clientX,event.clientY];});
-  canvas.addEventListener('pointercancel',()=>{pointerStart=null;});
+  canvas.addEventListener('pointerdown',event=>{
+    selectionPointers.add(event.pointerId);
+    if(selectionPointers.size>1){multipleSelectionPointers=true;pointerStart=null;}
+    else pointerStart=[event.clientX,event.clientY,event.pointerId];
+  });
+  for(const name of ['pointercancel','lostpointercapture'])canvas.addEventListener(name,event=>{
+    selectionPointers.delete(event.pointerId);pointerStart=null;
+    if(!selectionPointers.size)multipleSelectionPointers=false;
+  });
   canvas.addEventListener('pointerup',event=>{
-    if(!pointerStart)return;const travel=Math.hypot(event.clientX-pointerStart[0],event.clientY-pointerStart[1]);pointerStart=null;
+    selectionPointers.delete(event.pointerId);
+    if(multipleSelectionPointers){if(!selectionPointers.size)multipleSelectionPointers=false;pointerStart=null;return;}
+    if(!pointerStart||pointerStart[2]!==event.pointerId)return;
+    const travel=Math.hypot(event.clientX-pointerStart[0],event.clientY-pointerStart[1]);pointerStart=null;
     if(travel>5||busy||!model)return;
     const rect=canvas.getBoundingClientRect();pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);
     const meshes=[...meshIndex.values()].flat().filter(mesh=>mesh.visible);
@@ -1198,7 +1207,7 @@ async function initialize(){
     design=data;partsById=new Map(design.parts.map(p=>[p.id,p]));state=normalizeState(design);await initializeV5Display();await initializeV5Surfaces();
     $('module').replaceChildren(new Option('Conjunto completo','all'));for(const module of design.modules)$('module').add(new Option(`${module.id} · ${module.label||'Módulo'}`,module.id));
     $('joint').replaceChildren(new Option('Ninguno',''));for(const joint of design.joints)$('joint').add(new Option(`${joint.id} · ${joint.a} / ${joint.b}`,joint.id));
-    document.querySelectorAll('#controls input,#controls select,#controls button').forEach(control=>{control.disabled=false;});
+    document.querySelectorAll('#controls input:not([data-ui]),#controls select:not([data-ui]),#controls button:not([data-ui])').forEach(control=>{control.disabled=false;});
     apply();await loadModel();
   }catch(error){reportError('No se pudieron leer los datos del banco.','Conserva la carpeta completa y vuelve a intentarlo desde el inicio.',error);}
 }

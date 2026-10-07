@@ -31,7 +31,7 @@
 
 const POINTS = [{"id": "centro", "label": "Centro", "file": "pano_centro_r1.webp", "image": "assets/interactivos_r1/pano_centro_r1.webp", "resourceKey": "pano:centro", "originalImage": "assets/interactivos_r1/originales/panorama_360.png", "originalFile": "panorama_360.png"}, {"id": "entrada", "label": "Entrada", "file": "pano_entrada_r1.webp", "image": "assets/interactivos_r1/pano_entrada_r1.webp", "resourceKey": "pano:entrada", "originalImage": "assets/interactivos_r1/originales/panorama_entrada.png", "originalFile": "panorama_entrada.png"}, {"id": "lateral", "label": "Lateral", "file": "pano_lateral_r1.webp", "image": "assets/interactivos_r1/pano_lateral_r1.webp", "resourceKey": "pano:lateral", "originalImage": "assets/interactivos_r1/originales/panorama_lateral.png", "originalFile": "panorama_lateral.png"}, {"id": "estaciones", "label": "Estaciones", "file": "pano_estaciones_r1.webp", "image": "assets/interactivos_r1/pano_estaciones_r1.webp", "resourceKey": "pano:estaciones", "originalImage": "assets/interactivos_r1/originales/panorama_estaciones.png", "originalFile": "panorama_estaciones.png"}];
 const canvas=document.querySelector('#vista');
-ViewChrome.bind(document,window);
+// La interfaz responsive se enlaza en responsive_r2.js.
 const status=document.querySelector('#estado');
 const select=document.querySelector('#punto');
 const loading=document.querySelector('#cargando');
@@ -108,8 +108,10 @@ function zoom(delta) {
 }
 function resize() {
   if(!renderer)return;
-  renderer.setSize(window.innerWidth,window.innerHeight,false);
-  camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();
+  const width=canvas.clientWidth,height=Math.max(1,canvas.clientHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  renderer.setSize(width,height,false);
+  camera.aspect=width/height;camera.updateProjectionMatrix();
 }
 select.addEventListener('change',()=>selectPoint(select.value));
 canvas.addEventListener('pointerdown',event=>{

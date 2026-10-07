@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CORAL-ES · Mirar desde distintos puntos</title><style>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>CORAL-ES · Mirar desde distintos puntos</title><style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#151410;color:#f3eedf;font-family:Arial,sans-serif}
 canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab;outline:none}canvas:active{cursor:grabbing}canvas:focus-visible{outline:3px solid #f1b354;outline-offset:-3px}
 header{position:absolute;top:25px;left:30px;pointer-events:none;text-shadow:0 1px 9px #000}h1{font:32px Georgia,serif;margin:0 0 8px;letter-spacing:1px}header p{font-size:13px;margin:0;color:#e4dccb}
@@ -40,14 +40,18 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
- --></head>
-<body><canvas id="vista" tabindex="0" aria-label="Vista panorámica de la instalación."></canvas>
+ --><link rel="stylesheet" href="assets/interactivos_r1/responsive_r2.css">
+<script defer src="assets/interactivos_r1/responsive_r2.js"></script>
+</head>
+<body class="viewer panorama-view"><canvas id="vista" tabindex="0" aria-label="Vista panorámica de la instalación."></canvas>
 <img id="r1Preview" src="assets/interactivos_r1/preview_360_r1.webp" alt="" width="1100" height="619" decoding="async" fetchpriority="high">
-<button id="interfaz" class="chrome-toggle" type="button" aria-pressed="false" aria-label="Ocultar interfaz (H)" title="Ocultar interfaz (H)"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></button>
+<button id="interfaz" class="chrome-toggle" type="button" aria-pressed="false" aria-label="Ocultar interfaz (H)" title="Ocultar interfaz (H)"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.8"/></svg><span>Ocultar interfaz</span></button>
+<button id="toolsToggle" class="tools-toggle" type="button" aria-controls="viewerNav" aria-expanded="true">Controles</button>
+<a class="ui-home ui-link" href="INICIO.html">Inicio</a>
 <header><h1>CORAL-ES</h1><p>Mirar desde distintos puntos · panorámicas 360°<br>Arrastra para mirar · H oculta o muestra la interfaz</p></header>
 <div id="cargando" role="status">Abriendo el espacio…</div>
 <div id="fallback" hidden><p id="fallo">La vista necesita WebGL.</p><img id="fallback_image" src="assets/interactivos_r1/preview_360_r1.webp" alt="Panorámica completa del punto seleccionado"><a id="alternativa">Guardar la panorámica completa</a></div>
-<nav aria-label="Controles de la panorámica"><label for="punto">Punto de vista</label><select id="punto"><option value="centro">Centro</option><option value="entrada">Entrada</option><option value="lateral">Lateral</option><option value="estaciones">Estaciones</option></select><button id="acercar" aria-label="Acercar">+</button><button id="alejar" aria-label="Alejar">−</button><button id="volver">Vista inicial</button><button id="recorrer" aria-pressed="false">Recorrer</button><button id="pantalla">Pantalla completa</button></nav>
+<nav class="viewer-nav" id="viewerNav" aria-label="Controles de la panorámica"><label for="punto">Punto de vista</label><select id="punto"><option value="centro">Centro</option><option value="entrada">Entrada</option><option value="lateral">Lateral</option><option value="estaciones">Estaciones</option></select><button id="acercar" aria-label="Acercar">+</button><button id="alejar" aria-label="Alejar">−</button><button id="volver">Vista inicial</button><button id="recorrer" aria-pressed="false">Recorrer</button><button id="pantalla">Pantalla completa</button></nav>
 <footer><span id="estado" role="status">Cargando la panorámica…</span></footer>
 
 <script src="assets/interactivos_r1/web_assets_r1.js"></script>

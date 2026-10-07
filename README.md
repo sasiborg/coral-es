@@ -29,10 +29,14 @@ Abre [index.html](index.html) para acceder a los tres visores. [INICIO.html](INI
 | Visor | Qué permite explorar | Controles principales |
 | --- | --- | --- |
 | [Visión 360°](CORALES_360_V5.html) | Panorámicas desde el centro, la entrada, el lateral y las estaciones. Incluye la descarga de las imágenes PNG originales. | Arrastrar para mirar; seleccionar el punto de vista; `H` para ocultar o mostrar la interfaz. |
-| [Recorrido 3D](CORALES_Recorrido_3D_V5.html) | Caminar por el recinto, aproximarse al banco y las estaciones, sentarse y observar la instalación desde distintas posiciones y alturas de ojos. | `WASD` o flechas para caminar; clic y ratón para mirar; `Esc` para liberar el ratón; `E` para sentarse o ponerse de pie; `H` para la interfaz. |
+| [Recorrido 3D](CORALES_Recorrido_3D_V5.html) | Caminar por el recinto, aproximarse al banco y las estaciones, sentarse y observar la instalación desde distintas posiciones y alturas de ojos. | Mantener pulsadas las flechas en pantalla, `WASD` o flechas del teclado para caminar; arrastrar para mirar; clic y ratón para capturar la mirada; `Esc` para liberarla; `E` para sentarse o ponerse de pie; `H` para la interfaz. |
 | [Modelo interactivo](CORALES_Modelo_Interactivo_G_V5.html) | Examinar el banco completo, módulos y encuentros; comparar G/T/R; ver estructura, lastre, despiece por capas, piezas en el suelo y pasos de armado; buscar piezas por función, ID o material; descargar el modelo mostrado como GLB. | Arrastrar para girar; rueda para acercar; clic para identificar; flechas para girar; `+` / `−` para acercar; `Inicio` para encuadrar; `Esc` para quitar la selección. |
 
 El modelo permite añadir figuras de escala humana. Esas figuras y las escenas de ocupación son referencias ilustrativas; no constituyen una determinación de aforo o accesibilidad.
+
+Los tres visores se ajustan al tamaño y la orientación de la pantalla sin desplazar la página. En pantallas compactas, **Controles** abre el panel; el modelo del banco distribuye sus herramientas por categorías y páginas. **Ocultar interfaz / Mostrar interfaz** está siempre disponible. En el recorrido, las cuatro flechas permanecen visibles con la interfaz oculta; se puede mantener una flecha con un dedo y arrastrar la vista con otro. Al soltar, cancelar el gesto, cambiar la orientación o abandonar la ventana, se libera el movimiento.
+
+El inicio toma la paleta oscura, los acentos ámbar y las familias Georgia/Arial de la presentación PDF. Los tres interactivos ocupan el área principal, con imágenes y títulos mayores; la documentación aparece en una franja secundaria. La nueva previa del modelo es una captura del despiece real sobre el fondo del inicio, sin modificar el visor ni sus geometrías. Cada PDF conserva una portada obtenida de su primera página: la portada y el título forman un único enlace, y las imágenes mantienen su proporción original. En celulares permite scroll y presenta los seis documentos; en las demás pantallas distribuye los documentos por páginas cuando hace falta espacio. `index.html` e `INICIO.html` son equivalentes.
 
 ## Documentación incluida
 
@@ -61,7 +65,7 @@ Para imprimir las láminas 1:1, conserva el tamaño real y comprueba una cota de
 
 La entrega está preparada para abrirse directamente desde archivos locales, sin instalación, compilación ni conexión a internet después de descargarla. Las imágenes, los modelos y la biblioteca 3D están incluidos; no hay dependencias de CDN.
 
-Los visores necesitan JavaScript, WebGL y la API `DecompressionStream` para descomprimir los recursos locales. El recorrido utiliza teclado y ratón. Si el navegador no puede iniciar una vista, los visores muestran una alternativa o un mensaje de recuperación.
+Los visores necesitan JavaScript, WebGL y la API `DecompressionStream` para descomprimir los recursos locales. Admiten controles táctiles, teclado y ratón; la captura del ratón y la pantalla completa dependen de las capacidades del navegador. Si el navegador no puede iniciar una vista, los visores muestran una alternativa o un mensaje de recuperación.
 
 Si prefieres servir la carpeta por HTTP y ya tienes Python instalado, ejecuta este comando desde la raíz del repositorio:
 
@@ -83,6 +87,9 @@ coral-es/
 ├── assets/
 │   └── interactivos_r1/
 │       ├── *_app_r1.js                 Código de los visores
+│       ├── responsive_r2.css / .js      Adaptación de los visores y paneles paginados
+│       ├── home_r2.css / .js            Jerarquía del inicio y navegación de documentos
+│       ├── portadas/                   Seis miniaturas de las primeras páginas PDF
 │       ├── web_assets_r1.js            Carga de recursos locales
 │       ├── resource_*.js               Datos y modelos empaquetados
 │       ├── three_local_r1.js           Biblioteca 3D local

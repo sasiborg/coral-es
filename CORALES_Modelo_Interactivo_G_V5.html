@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="light">
   <title>CORAL-ES V5 · Modelo interactivo</title>
   <style>:root{--paper:#f4f0e7;--ink:#24221f;--muted:#6e6258;--line:#d4cbbd;--wood:#8b512f;--focus:#9b4819;--white:#fffdf8;--s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px}
@@ -22,15 +22,19 @@
 
 #r1Preview{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#151410;pointer-events:none}#viewport #r1Preview{background:#f4f1e9}#r1Preview[hidden]{display:none!important}#cargando{background:transparent;text-shadow:0 1px 6px #000}#modelMessage{background:transparent}#modelMessage>div{background:#fffdf8eb;padding:20px 24px;border-radius:4px}
 </style>
+<link rel="stylesheet" href="assets/interactivos_r1/responsive_r2.css">
+<script defer src="assets/interactivos_r1/responsive_r2.js"></script>
 </head>
-<body>
+<body class="viewer model-view">
   <a class="skip-link" href="#controls">Ir a los controles del modelo</a>
   <header class="app-header">
     <a class="brand" href="INICIO.html">CORAL-ES <span>V5</span></a>
     <p>Modelo interactivo V5 · 17 módulos · tres garfios G</p>
     <nav aria-label="Explorar CORAL-ES"><a href="INICIO.html">Inicio</a></nav>
   </header>
-  <main class="workspace">
+  <button type="button" id="hideInterface" class="chrome-toggle" aria-pressed="false" aria-label="Ocultar interfaz (H)"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.8"/></svg><span>Ocultar interfaz</span></button>
+<button id="toolsToggle" type="button" class="tools-toggle" aria-controls="controls" aria-expanded="true">Controles</button>
+<main class="workspace">
     <section class="stage" id="viewport" aria-labelledby="modelTitle">
       <div class="stage-title"><h1 id="modelTitle">El banco en espiral.</h1><p id="modelDimensions">1,5 vueltas · entrada a la derecha · ancho exterior 6 m</p></div>
       <canvas id="scene" tabindex="0" aria-label="Modelo 3D del banco" aria-describedby="keyboardHelp"></canvas>
@@ -40,77 +44,20 @@
           <div id="errorActions" hidden><button id="retry" type="button">Volver a cargar</button><a href="INICIO.html">Volver al inicio</a></div>
         </div>
       </div>
-      <p id="keyboardHelp" class="gesture">Arrastra para girar · rueda para acercar · clic para identificar.<br>Teclado en el modelo: flechas para girar, + / − para acercar, Inicio para encuadrar, Esc para quitar la selección. H para ocultar o mostrar los controles.</p>
-      <div class="stage-footer"><p id="status" role="status" aria-live="polite">Preparando datos…</p><button type="button" id="frame">Encuadrar</button><button type="button" id="hideInterface" aria-pressed="false">Ocultar controles · H</button></div>
+      <p id="keyboardHelp" class="gesture">Arrastra para girar · pellizca o usa la rueda para acercar · toca una pieza para identificar.<span class="desktop-help"><br>Teclado: flechas para girar, + / − para acercar, Inicio para encuadrar, Esc para quitar la selección. H para la interfaz.</span></p>
+      <div class="stage-footer"><p id="status" role="status" aria-live="polite">Preparando datos…</p><button type="button" id="frame">Encuadrar</button></div>
       <noscript><div class="no-script"><h2>El modelo necesita JavaScript.</h2><p>Activa JavaScript para explorar el modelo o vuelve al <a href="INICIO.html">inicio</a>.</p></div></noscript>
     </section>
 
-    <aside class="controls" id="controls" aria-label="Controles y lectura del modelo" tabindex="-1">
-      <form id="viewForm">
-        <h2>Explorar el banco</h2>
-        <fieldset class="variant-control"><legend>Unión entre módulos</legend><div class="variant-options">
+    <aside class="controls" id="controls" aria-label="Controles y lectura del banco"><div class="model-panel-picker"><label for="modelPanel">Controles</label><select id="modelPanel" data-ui="panel"><option value="explorePanel">Explorar</option><option value="explodePanel">Despiece</option><option value="moduleGuideDetails">Armado del módulo</option><option value="assemblyDetails">Unión paso a paso</option><option value="peoplePanel">Escala humana</option><option value="pieceDetails">Piezas</option><option value="aboutPanel">Documentación</option></select></div><form id="viewForm" class="model-form"><section class="model-panel" id="explorePanel" hidden><div class="panel-body"><div class="control-group"><h2>Explorar el banco</h2></div><div class="control-group"><fieldset class="variant-control"><legend>Unión entre módulos</legend><div class="variant-options">
           <label><input type="radio" name="variant" value="G" checked><span><b>G</b>3 garfios · principal</span></label>
 <label><input type="radio" name="variant" value="T"><span><b>T</b>Pernos · alternativa</span></label>
 <label><input type="radio" name="variant" value="R"><span><b>R</b>Rieles · alternativa</span></label>
 
 
-        </div></fieldset>
-        <p id="variantDescription" class="control-note">Tres garfios G: insertar 40 mm, descender 20 mm y colocar seguros. T/R son alternativas secundarias.</p>
-        <label for="feet" hidden>Patas fijas</label><select id="feet" hidden><option value="fixed">Patas fijas</option></select>
-        <div class="paired-controls"><div><label for="module">Ver módulo</label><select id="module"><option value="all">Conjunto completo</option></select></div><div><label for="joint">Ver encuentro</label><select id="joint"><option value="">Ninguno</option></select></div></div>
-        <div class="views" role="group" aria-label="Vistas del modelo">
+        </div></fieldset></div><div class="control-group"><p id="variantDescription" class="control-note">Tres garfios G: insertar 40 mm, descender 20 mm y colocar seguros. T/R son alternativas secundarias.</p></div><label for="feet" hidden>Patas fijas</label><select id="feet" hidden><option value="fixed">Patas fijas</option></select><div class="control-group"><div class="paired-controls"><div><label for="module">Ver módulo</label><select id="module"><option value="all">Conjunto completo</option></select></div><div><label for="joint">Ver encuentro</label><select id="joint"><option value="">Ninguno</option></select></div></div></div><div class="control-group"><div class="views" role="group" aria-label="Vistas del modelo">
           <button type="button" data-view="perspective" aria-pressed="true">Perspectiva</button><button type="button" data-view="top" aria-pressed="false">Planta</button><button type="button" data-view="front" aria-pressed="false">Perfil</button><button type="button" data-view="side" aria-pressed="false">Lateral</button>
-        </div>
-        <button type="button" data-view="joint" id="jointView" class="joint-view" aria-pressed="false">Acercar al encastre</button>
-        <div class="check-controls"><label><input type="checkbox" id="structure">Ver estructura y lastre</label><label hidden><input type="checkbox" id="covers" disabled>Acceso superior sin puertas laterales</label></div>
-        <label for="explode" class="range-label">Despiece <output id="explodeValue" for="explode">0 %</output></label><input type="range" id="explode" min="0" max="100" step="1" value="0">
-        <button type="button" id="layeredModule" aria-pressed="false">Despiece por capas</button>
-<p class="control-note">Un módulo a la vez, con la tapa alineada sobre la estructura y las costillas completas.</p>
-<p class="control-note" id="nativeTextureNote">Acabado visible: madera y/o chapilla Flor Morado. Explora el módulo por capas o por pasos de armado.</p>
-<details id="moduleGuideDetails" class="reading-section">
- <summary>Armado de un módulo</summary>
- <div class="assembly-reading">
-  <button type="button" id="moduleGuideToggle" aria-pressed="false">Mostrar armado del módulo</button>
-  <div class="step-controls"><button type="button" id="moduleGuidePrevious">Anterior</button><p id="moduleGuideCount" aria-live="polite"></p><button type="button" id="moduleGuideNext">Siguiente</button></div>
-  <h3 id="moduleGuideTitle"></h3><p id="moduleGuideText"></p>
-  <p class="control-note">Las piezas anteriores ya están montadas. La capa actual se separa para explicar dónde encaja.</p>
- </div>
-</details>
-
-<button type="button" id="floorLayout" aria-pressed="false">Piezas en el suelo</button><p class="control-note">Disposición ordenada de un módulo G, con los marcos completos.</p><div class="check-controls"><label><input type="checkbox" id="separateMembers">Detalle de listones individuales</label></div><details id="floorFamilies" hidden><summary>Orden de armado de las piezas</summary><ol id="floorFamilyList"></ol></details><div class="check-controls human-control"><label><input type="checkbox" id="humans">Añadir escala humana</label></div>
-        <div id="humanDensityField" class="human-facing" hidden><label for="humanDensity">Personas por módulo</label><select id="humanDensity"><option value="single">Una por módulo · 17 en el conjunto</option><option value="double">Dos por módulo · 34 en el conjunto</option></select></div>
-        <div id="humanFacingField" class="human-facing" hidden><label for="humanFacing">Personas sentadas mirando hacia</label><select id="humanFacing"><option value="mixed">Alternadas · dentro y fuera</option><option value="inside">Todas hacia el interior</option><option value="outside">Todas hacia el exterior</option></select></div>
-        <p id="humanSummary" class="control-note" hidden>Referencias ilustrativas de proporción; no acreditan aforo ni accesibilidad.</p>
-        <button type="button" id="reset" class="text-button">Restablecer la exploración</button>
-      </form>
-
-      <details id="assemblyDetails" class="reading-section">
-        <summary>Montar la unión paso a paso</summary>
-        <div class="details-body">
-          <p id="assemblySummary"></p>
-          <p id="assemblyContext" class="control-note">La secuencia muestra un encuentro de dos módulos.</p>
-          <button type="button" id="assemblyToggle" aria-pressed="false">Mostrar secuencia en el modelo</button>
-          <p class="control-note">La secuencia aísla dos módulos para explicar el encuentro G. Los desplazamientos se muestran de forma explicativa.</p>
-          <ol id="stepList" class="step-list" aria-label="Pasos del montaje"></ol>
-          <div class="step-controls"><button type="button" id="previous">Anterior</button><p id="stepCount" aria-live="polite"></p><button type="button" id="next">Siguiente</button></div>
-          <h3 id="stepTitle"></h3><p id="stepText"></p><p id="stepCheck" class="control-note"></p>
-          <a id="unionImage" href="assets/interactivos_r1/union_G_r1.png" target="_blank" rel="noopener">Ver detalle de la unión G</a>
-        </div>
-      </details>
-
-      <details id="pieceDetails" class="reading-section">
-        <summary>Identificar una pieza</summary>
-        <div class="details-body">
-          <label for="search">Buscar por función, ID o material</label><input type="search" id="search" placeholder="Por ejemplo: lastre, M08, perno">
-          <label for="pieceSelect">Piezas de la vista actual</label><select id="pieceSelect"><option value="">Selecciona una pieza</option></select>
-          <p id="partCount" class="control-note"></p>
-          <div id="partInfo" aria-live="polite"><p>Haz clic en el modelo o elige una pieza en la lista. La ficha muestra el mismo ID que los planos.</p></div>
-          <button type="button" id="clearSelection" class="text-button" hidden>Quitar selección</button>
-        </div>
-      </details>
-
-      <div class="control-footnote"><p>Propuesta para revisión y prototipo.</p><p>Las verificaciones digitales no acreditan resistencia ni habilitan uso público. Los apoyos, el lastre y las uniones requieren revisión y ensayos físicos.</p><a id="glbLink" href="#" download>Descargar el modelo mostrado · GLB</a></div>
-    </aside>
+        </div></div><div class="control-group"><button type="button" data-view="joint" id="jointView" class="joint-view" aria-pressed="false">Acercar al encastre</button></div><div class="control-group"><button type="button" id="reset" class="text-button">Restablecer la exploración</button></div></div></section><section class="model-panel" id="explodePanel" hidden><div class="panel-body"><div class="control-group"><h2>Despiece del módulo</h2></div><div class="control-group"><div class="check-controls"><label><input type="checkbox" id="structure">Ver estructura y lastre</label><label hidden><input type="checkbox" id="covers" disabled>Acceso superior sin puertas laterales</label></div></div><div class="control-group"><label for="explode" class="range-label">Despiece <output id="explodeValue" for="explode">0 %</output></label><input type="range" id="explode" min="0" max="100" step="1" value="0"></div><div class="control-group"><button type="button" id="layeredModule" aria-pressed="false">Despiece por capas</button><p class="control-note">Un módulo a la vez, con la tapa alineada sobre la estructura y las costillas completas.</p></div><div class="control-group"><p class="control-note" id="nativeTextureNote">Acabado visible: madera y/o chapilla Flor Morado. Explora el módulo por capas o por pasos de armado.</p></div><div class="control-group"><button type="button" id="floorLayout" aria-pressed="false">Piezas en el suelo</button><p class="control-note">Disposición ordenada de un módulo G, con los marcos completos.</p></div><div class="control-group"><div class="check-controls"><label><input type="checkbox" id="separateMembers">Detalle de listones individuales</label></div></div><div id="floorFamilies" hidden data-page-split><h3>Orden de armado de las piezas</h3><ol id="floorFamilyList" data-page-split></ol></div></div></section><section class="model-panel" id="moduleGuideDetails" hidden><div class="panel-body"><div class="control-group"><h2>Armado de un módulo</h2></div><div class="control-group"><button type="button" id="moduleGuideToggle" aria-pressed="false">Mostrar armado del módulo</button></div><div class="control-group"><div class="step-controls"><button type="button" id="moduleGuidePrevious">Anterior</button><p id="moduleGuideCount" aria-live="polite"></p><button type="button" id="moduleGuideNext">Siguiente</button></div></div><h3 id="moduleGuideTitle"></h3><p id="moduleGuideText"></p><p class="control-note">Las piezas anteriores ya están montadas. La capa actual se separa para explicar dónde encaja.</p></div></section><section class="model-panel" id="assemblyDetails" hidden><div class="panel-body"><div class="control-group"><h2>Montar la unión paso a paso</h2></div><p id="assemblySummary"></p><p id="assemblyContext" class="control-note">La secuencia muestra un encuentro de dos módulos.</p><div class="control-group"><button type="button" id="assemblyToggle" aria-pressed="false">Mostrar secuencia en el modelo</button></div><p class="control-note">La secuencia aísla dos módulos para explicar el encuentro G. Los desplazamientos se muestran de forma explicativa.</p><div class="control-group"><div class="step-controls"><button type="button" id="previous">Anterior</button><p id="stepCount" aria-live="polite"></p><button type="button" id="next">Siguiente</button></div></div><h3 id="stepTitle"></h3><p id="stepText"></p><p id="stepCheck" class="control-note"></p><ol id="stepList" class="step-list" aria-label="Pasos del montaje"></ol><a id="unionImage" class="ui-link" href="assets/interactivos_r1/union_G_r1.png" target="_blank" rel="noopener">Ver detalle de la unión G</a></div></section><section class="model-panel" id="peoplePanel" hidden><div class="panel-body"><div class="control-group"><h2>Escala humana</h2></div><div class="control-group"><div class="check-controls human-control"><label><input type="checkbox" id="humans">Añadir escala humana</label></div></div><div class="control-group"><div id="humanDensityField" class="human-facing" hidden><label for="humanDensity">Personas por módulo</label><select id="humanDensity"><option value="single">Una por módulo · 17 en el conjunto</option><option value="double">Dos por módulo · 34 en el conjunto</option></select></div></div><div class="control-group"><div id="humanFacingField" class="human-facing" hidden><label for="humanFacing">Personas sentadas mirando hacia</label><select id="humanFacing"><option value="mixed">Alternadas · dentro y fuera</option><option value="inside">Todas hacia el interior</option><option value="outside">Todas hacia el exterior</option></select></div></div><p id="humanSummary" class="control-note" hidden>Referencias ilustrativas de proporción; no acreditan aforo ni accesibilidad.</p></div></section><section class="model-panel" id="pieceDetails" hidden><div class="panel-body"><div class="control-group"><h2>Identificar una pieza</h2></div><div class="control-group"><label for="search">Buscar por función, ID o material</label><input type="search" id="search" placeholder="Por ejemplo: lastre, M08, perno"></div><div class="control-group"><label for="pieceSelect">Piezas de la vista actual</label><select id="pieceSelect"><option value="">Selecciona una pieza</option></select></div><p id="partCount" class="control-note"></p><div id="partInfo" aria-live="polite"><p>Haz clic en el modelo o elige una pieza en la lista. La ficha muestra el mismo ID que los planos.</p></div><div class="control-group"><button type="button" id="clearSelection" class="text-button" hidden>Quitar selección</button></div></div></section><section class="model-panel" id="aboutPanel" hidden><div class="panel-body"><div class="control-footnote" data-page-split><p>Propuesta para revisión y prototipo.</p><p>Las verificaciones digitales no acreditan resistencia ni habilitan uso público. Los apoyos, el lastre y las uniones requieren revisión y ensayos físicos.</p><a id="glbLink" href="#" download>Descargar el modelo mostrado · GLB</a><a class="ui-link" href="INICIO.html">Volver al inicio</a></div></div></section></form></aside>
   </main>
 
 

@@ -342,21 +342,22 @@ const selector=document.querySelector('#ubicacion');
 const statureControl=document.querySelector('#estatura');
 const postureButton=document.querySelector('#postura');
 const keys=new Set();
-let renderer,ready=false,modelLoaded=false,dragging=false,lastX=0,lastY=0,lastTime=0;
+const heldMoves=new Map(),keyboardKeys=new Set();
+let renderer,ready=false,modelLoaded=false,dragging=false,lookPointer=null,lastX=0,lastY=0,lastTime=0;
 let position={x:0,z:0},yaw=0,pitch=-.08;
 let posture=null,stature=WalkCore.statureMeters(statureControl.value),velocity={x:0,z:0},curtain=null;
-ViewChrome.bind(document,window);
+// La interfaz responsive se enlaza en responsive_r2.js.
 const scene=new THREE.Scene();
 scene.background=new THREE.Color(0x0b0805);
 const camera=new THREE.PerspectiveCamera(NAV.camera?.fov_deg||52,1,.05,50);
 camera.rotation.order='YXZ';
 function clearKeys() {
-  keys.clear();
+  keys.clear();heldMoves.clear();keyboardKeys.clear();
   velocity={x:0,z:0};
   document.querySelectorAll('[data-move]').forEach(button=>button.setAttribute('aria-pressed','false'));
 }
 function releaseLook() {
-  clearKeys();dragging=false;
+  clearKeys();dragging=false;lookPointer=null;
   if(document.pointerLockElement===canvas)document.exitPointerLock();
 }
 function showFallback(message) {
@@ -413,14 +414,18 @@ function reset(id=selector.value) {
 }
 function resize() {
   if(!renderer)return;
-  renderer.setSize(window.innerWidth,window.innerHeight,false);
-  camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();
+  const width=canvas.clientWidth,height=Math.max(1,canvas.clientHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.6));
+  renderer.setSize(width,height,false);
+  camera.aspect=width/height;camera.updateProjectionMatrix();
 }
 async function requestLook() {
   if(!ready)return;
   canvas.focus();
   try {
-    if(!canvas.requestPointerLock)throw new Error('Pointer lock unavailable');
+    if(matchMedia('(pointer:coarse)').matches || !canvas.requestPointerLock) {
+      status.textContent='Arrastra en el espacio para mirar. Mantén pulsadas las flechas para caminar.';return;
+    }
     await canvas.requestPointerLock();
   } catch(error) {
     status.textContent='Arrastra el ratón para mirar. WASD o flechas para caminar. Escape libera el ratón.';
@@ -431,17 +436,17 @@ function applyLook(dx,dy) {
   yaw=angles.yaw;pitch=angles.pitch;
 }
 canvas.addEventListener('pointerdown',event=>{
-  if(!ready || event.button!==0)return;
-  canvas.focus();dragging=true;lastX=event.clientX;lastY=event.clientY;
+  if(!ready || event.button!==0 || lookPointer!==null)return;
+  lookPointer=event.pointerId;canvas.focus();dragging=true;lastX=event.clientX;lastY=event.clientY;
   if(event.pointerType==='mouse')requestLook();
   else canvas.setPointerCapture(event.pointerId);
 });
 canvas.addEventListener('pointermove',event=>{
-  if(!ready || !dragging || document.pointerLockElement===canvas)return;
+  if(!ready || !dragging || event.pointerId!==lookPointer || document.pointerLockElement===canvas)return;
   applyLook(event.clientX-lastX,event.clientY-lastY);lastX=event.clientX;lastY=event.clientY;
 });
-for(const name of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(name,()=>{dragging=false;});
-window.addEventListener('pointerup',()=>{dragging=false;});
+for(const name of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(name,event=>{if(event.pointerId===lookPointer){dragging=false;lookPointer=null;}});
+window.addEventListener('pointerup',event=>{if(event.pointerId===lookPointer){dragging=false;lookPointer=null;}});
 document.addEventListener('mousemove',event=>{
   if(ready && document.pointerLockElement===canvas)applyLook(event.movementX,event.movementY);
 });
@@ -461,11 +466,13 @@ window.addEventListener('keydown',event=>{
   if(!ready || event.target.closest('a,button,select,input'))return;
   if(movementCodes.has(event.code) && (document.activeElement===canvas || document.pointerLockElement===canvas)) {
     if(posture) {event.preventDefault();status.textContent='Estás sentado. Pulsa E o «Levantarse» antes de caminar.';return;}
-    keys.add(event.code);event.preventDefault();
+    keyboardKeys.add(event.code);keys.add(event.code);event.preventDefault();
   }
 });
-window.addEventListener('keyup',event=>{keys.delete(event.code);});
+window.addEventListener('keyup',event=>{keyboardKeys.delete(event.code);if(![...heldMoves.values()].includes(event.code))keys.delete(event.code);});
 window.addEventListener('blur',releaseLook);
+window.addEventListener('coral-interfacechange',releaseLook);
+window.addEventListener('resize',clearKeys);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)releaseLook();});
 canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();showFallback('Se perdió el contexto WebGL. Puedes consultar la panorámica.');});
 canvas.addEventListener('webglcontextrestored',()=>{
@@ -498,9 +505,21 @@ for(const button of document.querySelectorAll('[data-move]')) {
   button.addEventListener('pointerdown',event=>{
     if(!ready)return;event.preventDefault();canvas.focus();
     if(posture) {status.textContent='Estás sentado. Pulsa «Levantarse» antes de caminar.';return;}
-    button.setPointerCapture(event.pointerId);keys.add(button.dataset.move);button.setAttribute('aria-pressed','true');
+    button.setPointerCapture(event.pointerId);heldMoves.set(event.pointerId,button.dataset.move);keys.add(button.dataset.move);button.setAttribute('aria-pressed','true');
   });
-  for(const name of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(name,()=>{keys.delete(button.dataset.move);button.setAttribute('aria-pressed','false');});
+  for(const name of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(name,event=>{
+    heldMoves.delete(event.pointerId);
+    const held=[...heldMoves.values()].includes(button.dataset.move);
+    if(!held&&!keyboardKeys.has(button.dataset.move))keys.delete(button.dataset.move);
+    button.setAttribute('aria-pressed',String(held));
+  });
+  button.addEventListener('keydown',event=>{
+    if(['Space','Enter'].includes(event.code)&&ready&&!posture){event.preventDefault();keys.add(button.dataset.move);button.setAttribute('aria-pressed','true');}
+  });
+  button.addEventListener('keyup',event=>{
+    if(['Space','Enter'].includes(event.code)){keys.delete(button.dataset.move);button.setAttribute('aria-pressed','false');}
+  });
+  button.addEventListener('blur',()=>{if(![...heldMoves.values()].includes(button.dataset.move)){keys.delete(button.dataset.move);button.setAttribute('aria-pressed','false');}});
 }
 window.addEventListener('resize',resize);resize();
 async function loadModel() {

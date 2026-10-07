@@ -1,0 +1,102 @@
+/* Paleta y familias tipográficas de CORALES_Presentacion.pdf. */
+:root{
+  --canvas:#11120c;
+  --ink:#f2eee5;
+  --muted:#b6b0a4;
+  --accent:#cfa369;
+  --line:#454338;
+  --control-line:#777269;
+  --display:Georgia,'Times New Roman',serif;
+  --body:Arial,Helvetica,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;overscroll-behavior:none}
+html{color-scheme:dark;scrollbar-color:var(--accent) var(--canvas)}
+body{background:var(--canvas);color:var(--ink);font:16px/1.5 var(--body)}
+main{width:min(1400px,100%);height:100vh;height:100dvh;margin:auto;padding:clamp(20px,3.5vh,40px) 36px;padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom));display:grid;grid-template-rows:auto minmax(0,1fr) minmax(0,clamp(164px,22vh,190px));gap:clamp(18px,3vh,32px)}
+.home-header{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+h1{font:400 clamp(3rem,min(6.2vw,10vh),5.5rem)/1 var(--display);margin:0;letter-spacing:-.035em}
+.home-header p{margin:0 0 4px;max-width:27ch;color:var(--muted);font-size:1rem;line-height:1.5}
+section{min-width:0;min-height:0;display:flex;flex-direction:column;gap:18px}
+.section-title{font:400 1.75rem/1.2 var(--display);letter-spacing:-.015em;margin:0;color:var(--accent)}
+.interactive-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;align-items:center;flex:1;min-height:0}
+.entrada{min-width:0;min-height:0;max-height:100%;display:grid;grid-template-rows:minmax(0,1fr) auto;color:var(--ink);text-decoration:none;touch-action:manipulation}
+.interactive-image{display:flex;align-items:center;justify-content:center;width:100%;height:100%;min-width:0;min-height:0;aspect-ratio:16/9}
+.interactive-image img{display:block;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain}
+.interactive-copy{padding-top:18px;min-width:0;min-height:110px}
+.interactive-name{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.entrada h3{font:400 clamp(1.5rem,2.6vw,2.25rem)/1.16 var(--display);letter-spacing:-.015em;margin:0;text-wrap:balance}
+.interactive-name svg{width:20px;height:20px;flex:none;align-self:center;color:var(--accent);transition:transform .22s cubic-bezier(.16,1,.3,1)}
+.interactive-copy p{color:var(--muted);font-size:.875rem;line-height:1.5;max-width:36ch;margin:10px 0 0}
+.entrada:hover h3,.entrada:focus-visible h3{color:var(--accent)}
+.entrada:hover .interactive-name svg,.entrada:focus-visible .interactive-name svg{transform:translate(2px,-2px)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:5px}
+.documents-section{border-top:1px solid var(--line);padding-top:16px;gap:10px}
+.documents-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:44px}
+.documents-heading .section-title{font:600 .875rem/1.4 var(--body);letter-spacing:.015em;color:var(--muted)}
+.document-pages{display:flex;align-items:center;gap:10px}
+button{min-height:44px;min-width:44px;font:14px var(--body);border:1px solid var(--control-line);border-radius:0;padding:8px 10px;color:var(--ink);background:transparent;touch-action:manipulation;cursor:pointer}
+button:disabled{opacity:.4;cursor:default}
+button:hover:not(:disabled){color:var(--accent);border-color:var(--accent)}
+.document-pages output{font-size:12px;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--muted)}
+.document-pages svg{display:block;width:18px;height:18px;pointer-events:none}
+.document-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:20px;flex:1;min-height:0;align-items:end}
+.pdf-card{min-width:0;min-height:44px;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:10px;color:var(--muted);text-decoration:none;touch-action:manipulation;cursor:pointer;align-self:stretch}
+.pdf-cover{display:flex;align-items:flex-end;min-width:0;min-height:0;max-height:88px}
+.pdf-cover img{display:block;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain}
+.pdf-card h3{font:400 .8125rem/1.4 var(--body);margin:0;min-height:36px;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.pdf-card:hover,.pdf-card:focus-visible{color:var(--ink)}
+[hidden]{display:none!important}
+::selection{background:var(--accent);color:var(--canvas)}
+@media(max-width:1100px){
+  main{padding-left:24px;padding-right:24px;grid-template-rows:auto minmax(0,1fr) minmax(0,175px)}
+  .interactive-grid{gap:24px}.interactive-copy{padding-top:14px}.interactive-copy p{font-size:.8125rem}
+}
+@media(max-width:1000px){.document-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:900px) and (min-height:551px){
+  .home-header{padding-bottom:16px}.home-header p{font-size:.875rem;max-width:24ch}
+  .interactive-grid{grid-template-columns:1fr;grid-template-rows:repeat(3,minmax(0,1fr));align-items:stretch;gap:18px}
+  .entrada{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);grid-template-rows:1fr;gap:24px;align-items:center}
+  .interactive-image{height:100%;aspect-ratio:auto}.interactive-copy{padding-top:0;min-height:0}.entrada h3{font-size:2rem}
+}
+/* El inicio compacto de escritorio conserva todos los accesos sin scroll. */
+@media(max-height:550px) and (min-width:621px){
+  main{grid-template-columns:minmax(0,1.8fr) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);padding:16px 24px;gap:16px 28px}
+  .home-header{grid-column:1/-1;padding-bottom:12px}h1{font-size:2.75rem}.home-header p{max-width:none;font-size:.8125rem}
+  section{gap:10px}.section-title{font-size:1.375rem}
+  .interactive-grid{grid-template-columns:1fr;grid-template-rows:repeat(3,minmax(0,1fr));gap:12px;align-items:stretch}
+  .entrada{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);grid-template-rows:1fr;gap:16px;align-items:center}
+  .interactive-image{height:100%;aspect-ratio:auto}.interactive-copy{padding-top:0;min-height:0}.entrada h3{font-size:1.375rem}
+  .interactive-name{gap:8px}.interactive-name svg{width:16px;height:16px}.interactive-copy p{display:none}
+  .documents-section{padding:0 0 0 20px;border-top:0;border-left:1px solid var(--line)}
+  .documents-heading{flex-wrap:wrap;gap:4px}.document-pages{margin-left:auto;gap:6px}
+  .document-grid{grid-template-columns:1fr}.pdf-cover{max-height:none}.pdf-cover img{max-height:100%;max-width:100%}.pdf-card h3{min-height:36px}
+}
+/* En celulares se permite scroll y se muestran los seis PDF. */
+@media(max-width:620px),(max-width:1000px) and (pointer:coarse) and (max-height:550px){
+  html,body{height:auto;min-height:100%;overflow-x:hidden;overflow-y:auto;overscroll-behavior:auto}
+  main{height:auto;min-height:100dvh;display:block;padding:28px 20px;padding-top:max(28px,env(safe-area-inset-top));padding-bottom:max(28px,env(safe-area-inset-bottom))}
+  .home-header{display:block;padding-bottom:22px;margin-bottom:28px}.home-header p{font-size:.9375rem;max-width:none;margin:12px 0 0}
+  h1{font-size:clamp(2.875rem,13vw,4rem)}section{display:block}.section-title{font-size:1.5rem;margin-bottom:20px}
+  .interactive-grid{display:grid;grid-template-columns:1fr;grid-template-rows:none;gap:32px}
+  .entrada{display:block;max-height:none}.interactive-image{height:auto;aspect-ratio:16/9}.interactive-copy{padding-top:16px;min-height:0}
+  .entrada h3{font-size:1.875rem}.interactive-name{gap:16px}.interactive-name svg{width:20px;height:20px}
+  .interactive-copy p{display:block;font-size:.875rem;margin-top:8px}
+  .documents-section{margin-top:40px;padding:24px 0 0;border-left:0;border-top:1px solid var(--line)}
+  .documents-heading{display:block;min-height:0}.documents-heading .section-title{font-size:1rem;margin-bottom:20px}.document-pages{display:none}
+  .document-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px;align-items:end}
+  .pdf-card{grid-template-rows:minmax(0,1fr) auto;gap:12px}.pdf-cover{max-height:none}.pdf-cover img{max-height:100%;max-width:100%}.pdf-card h3{font-size:.8125rem;min-height:36px}
+}
+@media(min-width:621px) and (max-width:1000px) and (pointer:coarse) and (max-height:550px){
+  .interactive-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.entrada h3{font-size:1.5rem}
+  .document-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{
+  :root{--canvas:#fff;--ink:#202321;--muted:#6b665e;--accent:#a86327;--line:#b6b0a4}
+  html,body{overflow:visible;height:auto}main{height:auto;display:block;padding:0}.home-header,section{margin-bottom:24px}
+  .interactive-grid{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:none}.entrada{display:block}
+  .interactive-image{height:auto;aspect-ratio:16/9}.interactive-copy{padding-top:12px}.interactive-copy p{display:block}
+  .documents-section{border-left:0;border-top:1px solid var(--line);padding:20px 0 0}.document-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .pdf-card{height:170px}.pdf-card[hidden]{display:grid!important}.pdf-cover img{max-height:100px}.document-pages{display:none}
+}
