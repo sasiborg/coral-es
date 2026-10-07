@@ -10,6 +10,27 @@
       <a class="entrada" href="CORALES_Modelo_Interactivo_G_V5.html" target="_blank" rel="noopener" aria-label="Modelo interactivo, se abre en otra pestaña"><span class="interactive-image"><img src="assets/interactivos_r1/preview_model_home_r2.webp" width="1200" height="675" decoding="async" alt="Despiece por capas de un módulo real del banco."></span><div class="interactive-copy"><div class="interactive-name"><h3>Modelo interactivo</h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></div><p>Explora las piezas y el armado del banco.</p></div></a>
     </nav>
   </section>
+  <section class="videos-section" aria-labelledby="videosTitle">
+    <h2 id="videosTitle" class="section-title">Videos</h2>
+    <nav class="video-grid" aria-label="Ver los videos de CORAL-ES">
+      <a class="video-card video-featured" href="Videos/A.%20CORALES_Presentacion.mp4" target="_blank" rel="noopener" aria-label="Reproducir y ampliar Presentación, 1 minuto y 18 segundos, sin audio">
+        <span class="video-poster"><img src="assets/interactivos_r1/videos/presentacion.webp" width="960" height="540" alt="La instalación en su atmósfera ámbar." decoding="async"><span class="video-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m9 5 11 7-11 7z"/></svg></span></span>
+        <div class="video-copy"><h3>Presentación</h3><p><time datetime="PT78S">1:18</time> · Sin audio</p></div>
+      </a>
+      <a class="video-card" href="Videos/B.%20CORALES_Construcci%C3%B3n_Estacion%20de%20escucha.mp4" target="_blank" rel="noopener" aria-label="Reproducir y ampliar construcción de la estación de escucha, 48 segundos, sin audio">
+        <span class="video-poster"><img src="assets/interactivos_r1/videos/estacion.webp" width="960" height="540" alt="Montaje de la caja de una estación de escucha." decoding="async"><span class="video-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m9 5 11 7-11 7z"/></svg></span></span>
+        <div class="video-copy"><h3>Estación de escucha</h3><p><time datetime="PT48S">0:48</time> · Sin audio</p></div>
+      </a>
+      <a class="video-card" href="Videos/B.%20CORALES_Construcci%C3%B3n_Modulo%20Espiral.mp4" target="_blank" rel="noopener" aria-label="Reproducir y ampliar construcción del módulo de la espiral, 1 minuto y 45 segundos, sin audio">
+        <span class="video-poster"><img src="assets/interactivos_r1/videos/modulo.webp" width="960" height="540" alt="Estructura y piezas de un módulo del banco." decoding="async"><span class="video-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m9 5 11 7-11 7z"/></svg></span></span>
+        <div class="video-copy"><h3>Módulo de la espiral</h3><p><time datetime="PT105S">1:45</time> · Sin audio</p></div>
+      </a>
+      <a class="video-card" href="Videos/B.%20CORALES_Construcci%C3%B3n_Montaje%20Espiral.mp4" target="_blank" rel="noopener" aria-label="Reproducir y ampliar montaje de la espiral, 49 segundos, sin audio">
+        <span class="video-poster"><img src="assets/interactivos_r1/videos/montaje.webp" width="960" height="540" alt="La espiral completa después de unir sus módulos." decoding="async"><span class="video-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m9 5 11 7-11 7z"/></svg></span></span>
+        <div class="video-copy"><h3>Montaje de la espiral</h3><p><time datetime="PT49S">0:49</time> · Sin audio</p></div>
+      </a>
+    </nav>
+  </section>
   <section class="documents-section" aria-labelledby="documentsTitle"><div class="documents-heading"><h2 id="documentsTitle" class="section-title">Documentación PDF</h2><div class="document-pages" role="group" aria-label="Páginas de documentos"><button id="documentsPrevious" type="button" aria-label="Documentos anteriores" aria-controls="documentsGrid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14 5-7 7 7 7"/></svg></button><output id="documentsCount" aria-live="polite">1–6 / 6</output><button id="documentsNext" type="button" aria-label="Documentos siguientes" aria-controls="documentsGrid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m10 5 7 7-7 7"/></svg></button></div></div>
     <div id="documentsGrid" class="document-grid">
       <a class="pdf-card" href="PDFs/1.%20CORALES_Presentacion.pdf" target="_blank" rel="noopener" aria-label="Abrir presentación, PDF en otra pestaña"><span class="pdf-cover"><img src="assets/interactivos_r1/portadas/pdf_1.webp" alt="Portada de presentación" width="660" height="372" decoding="async"></span><h3>1. Presentación</h3></a>
@@ -20,4 +41,11 @@
       <a class="pdf-card" href="PDFs/6.%20CORALES_Superiores_Guias_Ploter_1a1.pdf" target="_blank" rel="noopener" aria-label="Abrir superiores y guías para plóter 1:1, PDF en otra pestaña"><span class="pdf-cover"><img src="assets/interactivos_r1/portadas/pdf_6.webp" alt="Portada de superiores y guías para plóter 1:1" width="660" height="364" decoding="async"></span><h3>6. Superiores y guías para plóter 1:1</h3></a>
     </div>
   </section>
-</main></body></html>
+</main>
+<dialog id="videoDialog" class="video-viewer" aria-labelledby="videoDialogTitle" aria-describedby="videoMeta">
+  <div class="video-viewer-heading"><h2 id="videoDialogTitle">Video</h2><div class="video-actions"><button id="videoFullscreen" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg><span>Pantalla completa</span></button><button id="videoClose" type="button" autofocus><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg><span>Cerrar</span></button></div></div>
+  <video id="videoPlayer" controls playsinline preload="none" aria-label="Reproductor del video seleccionado"></video>
+  <div class="video-viewer-footer"><p id="videoMeta">Sin audio</p><a id="videoFile" target="_blank" rel="noopener">Abrir archivo</a></div>
+  <p id="videoNotice" class="video-notice" role="status" hidden></p>
+</dialog>
+</body></html>

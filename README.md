@@ -4,7 +4,7 @@
 
 CORAL-ES propone un espacio para llegar, recorrer, detenerse y escuchar. Su núcleo es un banco continuo en forma de espiral que reúne cuerpos y acompaña el movimiento del público. Doce estaciones de escucha sobre el muro complementan ese espacio colectivo con lugares de permanencia individual. La madera y la iluminación ámbar forman parte de la atmósfera de la instalación.
 
-Este repositorio reúne la representación interactiva y la documentación de la propuesta: panorámicas 360°, un recorrido tridimensional, un modelo del banco con sus piezas y secuencias de armado, y seis cuadernos PDF de presentación y planos. Sirve para comprender la experiencia espacial, revisar el diseño y preparar su discusión y prototipado.
+Este repositorio reúne la representación interactiva y la documentación de la propuesta: panorámicas 360°, un recorrido tridimensional, un modelo del banco con sus piezas y secuencias de armado, cuatro videos y seis cuadernos PDF de presentación y planos. Sirve para comprender la experiencia espacial, revisar el diseño y preparar su discusión y prototipado.
 
 **Estado del proyecto:** propuesta para revisión y prototipo. Las representaciones y los planos documentan el diseño; las verificaciones digitales no acreditan resistencia ni habilitan uso público.
 
@@ -38,6 +38,8 @@ Los tres visores se ajustan al tamaño y la orientación de la pantalla sin desp
 
 El inicio toma la paleta oscura, los acentos ámbar y las familias Georgia/Arial de la presentación PDF. Los tres interactivos ocupan el área principal, con imágenes y títulos mayores; la documentación aparece en una franja secundaria. La nueva previa del modelo es una captura del despiece real sobre el fondo del inicio, sin modificar el visor ni sus geometrías. Cada PDF conserva una portada obtenida de su primera página: la portada y el título forman un único enlace, y las imágenes mantienen su proporción original. En celulares permite scroll y presenta los seis documentos; en las demás pantallas distribuye los documentos por páginas cuando hace falta espacio. `index.html` e `INICIO.html` son equivalentes.
 
+Los videos tienen una jerarquía intermedia entre los interactivos y los PDF. **Presentación** tiene la previa y el título mayores; le acompañan **Estación de escucha**, **Módulo de la espiral** y **Montaje de la espiral**. Al seleccionar uno se abre un reproductor ampliado, con controles nativos para reproducir, pausar y avanzar, y acceso a pantalla completa cuando el navegador la admite. `Esc`, **Cerrar** o un clic fuera del reproductor cierran la vista y detienen la reproducción. Las portadas son fotogramas de los MP4 originales; los videos se cargan solo al abrirlos. Los cuatro son Full HD y no tienen audio. Sin JavaScript o sin soporte de la vista ampliada, cada enlace abre el MP4 directamente.
+
 ## Documentación incluida
 
 | Documento | Contenido |
@@ -61,7 +63,7 @@ Para imprimir las láminas 1:1, conserva el tamaño real y comprueba una cota de
 
 2. Si descargaste un ZIP, extrae todo su contenido antes de abrirlo.
 3. Abre `index.html` con un navegador. También puedes abrir `INICIO.html`.
-4. Conserva `assets/` junto a los HTML y `PDFs/` para consultar los documentos.
+4. Conserva `assets/`, `Videos/` y `PDFs/` junto a los HTML para consultar todos los recursos.
 
 La entrega está preparada para abrirse directamente desde archivos locales, sin instalación, compilación ni conexión a internet después de descargarla. Las imágenes, los modelos y la biblioteca 3D están incluidos; no hay dependencias de CDN.
 
@@ -70,10 +72,10 @@ Los visores necesitan JavaScript, WebGL y la API `DecompressionStream` para desc
 Si prefieres servir la carpeta por HTTP y ya tienes Python instalado, ejecuta este comando desde la raíz del repositorio:
 
 ```powershell
-python -m http.server 8000 --bind 127.0.0.1
+python servir.py
 ```
 
-Después abre `http://127.0.0.1:8000/`. Detén el servidor con `Ctrl+C`.
+Después abre `http://127.0.0.1:8000/`. Detén el servidor con `Ctrl+C`. Este servidor usa solo la biblioteca estándar de Python, escucha únicamente en el equipo local y admite los rangos HTTP necesarios para adelantar y retroceder en los videos. Puedes elegir otro puerto con `python servir.py --port 8001`.
 
 ## Organización del repositorio
 
@@ -90,6 +92,7 @@ coral-es/
 │       ├── responsive_r2.css / .js      Adaptación de los visores y paneles paginados
 │       ├── home_r2.css / .js            Jerarquía del inicio y navegación de documentos
 │       ├── portadas/                   Seis miniaturas de las primeras páginas PDF
+│       ├── videos/                     Cuatro fotogramas de portada de los MP4
 │       ├── web_assets_r1.js            Carga de recursos locales
 │       ├── resource_*.js               Datos y modelos empaquetados
 │       ├── three_local_r1.js           Biblioteca 3D local
@@ -97,6 +100,8 @@ coral-es/
 │       ├── *.webp / union_*.png        Panorámicas, previas y detalles
 │       └── originales/                Cuatro panorámicas PNG originales
 ├── PDFs/                              Presentación y cinco cuadernos de planos
+├── Videos/                            Presentación y tres videos de construcción
+├── servir.py                          Servidor local opcional con avance de videos
 ├── CNAME                              Dominio de GitHub Pages
 ├── .nojekyll                          Entrega estática sin procesamiento Jekyll
 ├── .gitignore                         Exclusiones de archivos locales
