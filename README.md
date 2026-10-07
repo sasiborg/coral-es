@@ -100,7 +100,7 @@ Los HTML identifican la versión V5 y los recursos se agrupan en `assets/interac
 
 ## Alojamiento y mantenimiento
 
-El repositorio es [sasiborg/coral-es](https://github.com/sasiborg/coral-es). GitHub Pages está configurado para publicar la raíz de la rama `main`; `index.html` es la entrada del sitio. El archivo `CNAME` conserva el dominio `simonaldana.com` y `.nojekyll` forma parte de la entrega estática.
+La dirección de publicación de los visores es [corales.simonaldana.com](https://corales.simonaldana.com/). El repositorio es [sasiborg/coral-es](https://github.com/sasiborg/coral-es). GitHub Pages está configurado para publicar la raíz de la rama `main`; `index.html` es la entrada del sitio. El archivo `CNAME` conserva el dominio `corales.simonaldana.com` y `.nojekyll` forma parte de la entrega estática.
 
 Mantén las rutas relativas al mover o publicar la carpeta. Para actualizarla, conserva todos los recursos que requieren los visores y revisa los enlaces a los PDFs. Los PNG originales son archivos grandes: utiliza Git o GitHub Desktop para subir la entrega completa.
 
