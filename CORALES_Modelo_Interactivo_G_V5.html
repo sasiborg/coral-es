@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>CORAL-ES V5 · Modelo interactivo</title>
+  <style>:root{--paper:#f4f0e7;--ink:#24221f;--muted:#6e6258;--line:#d4cbbd;--wood:#8b512f;--focus:#9b4819;--white:#fffdf8;--s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px}
+*{box-sizing:border-box}html{color-scheme:light;scrollbar-color:#a69a89 var(--paper)}body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5}::selection{background:#d7b494;color:var(--ink)}a{color:inherit;text-underline-offset:4px;text-decoration-thickness:1px}button,input,select{font:inherit;color:inherit}button,a,input,select,summary{-webkit-tap-highlight-color:transparent}button{cursor:pointer}button,select,input[type="search"]{min-height:44px;border:1px solid var(--line);border-radius:3px;background:var(--white)}button{padding:9px 13px}button:hover{border-color:var(--wood);background:#ece4d7}button:disabled{opacity:.45;cursor:default}button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--white)}a:hover{color:var(--wood)}:focus-visible{outline:3px solid var(--focus);outline-offset:3px}h1,h2,h3,p{margin-top:0}h1{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:clamp(27px,3.4vw,46px);letter-spacing:-.025em;line-height:1.12;text-wrap:balance}h2{font-size:20px;line-height:1.25;letter-spacing:-.02em}h3{font-size:17px;line-height:1.3}p{max-width:70ch}label,legend{font-size:13px;font-weight:600}select,input[type="search"]{width:100%;padding:9px 11px;caret-color:var(--wood)}select{cursor:pointer}input[type="checkbox"],input[type="radio"],input[type="range"]{accent-color:var(--wood)}input[type="checkbox"]{width:18px;height:18px;margin:0;flex:none}input[type="range"]{display:block;width:100%;min-height:32px;margin:0 0 var(--s3);cursor:pointer}input::placeholder{color:var(--muted);opacity:1}[hidden]{display:none!important}.skip-link{position:absolute;left:var(--s4);top:-100px;z-index:20;background:var(--ink);color:var(--white);padding:12px}.skip-link:focus{top:var(--s4)}
+.app-header{min-height:72px;padding:var(--s4) var(--s6);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:var(--s5)}.brand{font-weight:700;font-size:21px;letter-spacing:.04em;text-decoration:none;white-space:nowrap}.brand span{margin-left:var(--s2);font-size:12px;letter-spacing:0;color:var(--muted)}.app-header p{margin:0;color:var(--muted);font-size:13px}.app-header nav{display:flex;gap:var(--s5);margin-left:auto;font-size:13px}.app-header nav a{padding:8px 0}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 352px;height:calc(100svh - 72px);min-height:570px}.stage{position:relative;min-width:0;overflow:hidden;background:var(--paper)}#scene{display:block;width:100%;height:100%;touch-action:none}.stage-title{position:absolute;top:var(--s6);left:var(--s6);right:var(--s6);pointer-events:none;z-index:1}.stage-title h1{margin-bottom:var(--s2)}.stage-title p{font-size:13px;color:var(--muted)}.gesture{position:absolute;bottom:72px;left:var(--s6);right:var(--s6);font-size:12px;color:var(--muted);line-height:1.5;margin:0;pointer-events:none}.stage-footer{position:absolute;bottom:0;left:0;right:0;min-height:64px;padding:var(--s3) var(--s6);display:flex;justify-content:space-between;align-items:center;gap:var(--s3);border-top:1px solid var(--line);background:var(--paper);z-index:1}.stage-footer p{margin:0;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}.stage-footer button{font-size:12px;min-height:40px;white-space:nowrap}.model-message{position:absolute;inset:0;display:grid;place-items:center;z-index:3;background:var(--paper);padding:var(--s6)}.model-message>div{max-width:540px}.model-message h2{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:30px;line-height:1.18}.model-message p{color:var(--muted);line-height:1.6}.has-error #messageTitle{color:#78351d}#errorActions{display:flex;flex-wrap:wrap;gap:var(--s4);align-items:center}#errorActions a{font-size:14px}.no-script{position:absolute;inset:0;display:grid;place-content:center;background:var(--paper);padding:var(--s6);z-index:4}
+.controls{overflow-y:auto;padding:var(--s5);border-left:1px solid var(--line);min-width:0;background:var(--white);scrollbar-gutter:stable}.controls form h2{margin-bottom:var(--s5)}.controls form>label{display:block;margin:var(--s4) 0 var(--s2)}.variant-control{border:0;padding:0;margin:0}.variant-control legend{margin-bottom:var(--s2)}.variant-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2)}.variant-options label{position:relative;cursor:pointer;font-weight:400}.variant-options input{position:absolute;width:1px;height:1px;opacity:0}.variant-options span{display:flex;align-items:center;justify-content:center;gap:var(--s2);border:1px solid var(--line);padding:10px 5px;min-height:46px;border-radius:3px;font-size:13px}.variant-options b{font-size:16px}.variant-options input:checked+span{background:var(--ink);border-color:var(--ink);color:var(--white)}.variant-options input:focus-visible+span{outline:3px solid var(--focus);outline-offset:3px}.variant-options label:hover span{border-color:var(--wood)}.control-note{color:var(--muted);font-size:12px;line-height:1.55;margin:var(--s3) 0 var(--s4)}.paired-controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s3);margin-top:var(--s4)}.paired-controls label{display:block;margin-bottom:var(--s2)}.views{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2);margin:var(--s4) 0}.views button{font-size:12px}.check-controls{display:grid;gap:var(--s2);margin:var(--s4) 0}.check-controls label{display:flex;align-items:center;gap:var(--s3);font-size:13px;font-weight:400;min-height:32px;cursor:pointer}.controls form>.range-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:0}.range-label output{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:400}.human-control{margin-top:var(--s2)}.text-button{padding-left:0;padding-right:0;background:transparent;border:0;text-decoration:underline;text-underline-offset:4px;font-size:12px}.text-button:hover{background:transparent;color:var(--wood)}
+.reading-section{border-top:1px solid var(--line);margin-top:var(--s5)}.reading-section summary{cursor:pointer;padding:var(--s4) 0;font-size:14px;font-weight:600;min-height:52px}.reading-section summary:hover{color:var(--wood)}.details-body{padding:0 0 var(--s5)}.details-body>p{font-size:13px;line-height:1.6}.details-body>label{display:block;margin:var(--s4) 0 var(--s2)}.details-body>a{font-size:13px}.details-body button{font-size:12px}#assemblyToggle{width:100%}.step-list{list-style:none;padding:0;margin:var(--s4) 0;display:grid;gap:var(--s2);counter-reset:assembly}.step-list li{counter-increment:assembly}.step-list button{width:100%;display:flex;align-items:flex-start;gap:var(--s3);text-align:left;border:0;background:transparent;padding:var(--s2) 0;min-height:38px;font-size:12px}.step-list button:before{content:counter(assembly);display:block;min-width:20px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}.step-list button[aria-current="step"]{color:var(--wood);font-weight:700}.step-list button[aria-current="step"]:before{color:var(--wood)}.step-controls{display:flex;justify-content:space-between;align-items:center;gap:var(--s2);margin-bottom:var(--s5)}.step-controls p{margin:0;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}#stepTitle{margin-bottom:var(--s2)}#partInfo h3{margin:var(--s5) 0 var(--s2)}#partInfo>p{font-size:13px;color:var(--muted);line-height:1.6}.piece-data{margin:var(--s4) 0;font-size:13px}.piece-data>div{display:grid;grid-template-columns:105px minmax(0,1fr);gap:var(--s3);border-bottom:1px solid var(--line);padding:var(--s2) 0}.piece-data dt{color:var(--muted)}.piece-data dd{margin:0;overflow-wrap:anywhere}.control-footnote{margin-top:var(--s6);padding-top:var(--s5);border-top:1px solid var(--line);font-size:12px;color:var(--muted)}.control-footnote p:first-child{font-weight:600;color:var(--ink);margin-bottom:var(--s2)}.control-footnote p{line-height:1.6}.control-footnote a{display:block;margin-top:var(--s3)}
+@media(min-width:1500px){.workspace{grid-template-columns:minmax(0,1fr) 384px}.controls{padding:var(--s6)}}
+@media(max-width:1000px){.app-header{padding:var(--s4) var(--s5)}.app-header p{display:none}.workspace{grid-template-columns:minmax(0,1fr) 320px}.stage-title{top:var(--s5);left:var(--s5);right:var(--s5)}.gesture{left:var(--s5);right:var(--s5)}.stage-footer{padding-left:var(--s5);padding-right:var(--s5)}.controls{padding:var(--s4)}}
+@media(max-width:760px){.app-header{min-height:68px;padding:var(--s3) var(--s4);gap:var(--s3)}.brand{font-size:19px}.app-header nav{gap:var(--s4);font-size:12px}.workspace{display:block;height:auto;min-height:0}.stage{height:clamp(430px,67svh,720px);min-height:430px}.stage-title{left:var(--s4);right:var(--s4);top:var(--s5)}.stage-title h1{font-size:32px}.stage-title p{max-width:260px;font-size:12px}.gesture{left:var(--s4);right:var(--s4);font-size:11px;bottom:74px}.stage-footer{padding:var(--s3) var(--s4);min-height:64px}.stage-footer p{max-width:65%;font-size:11px}.controls{overflow:visible;border-left:0;border-top:1px solid var(--line);padding:var(--s5);max-width:none}.controls form{max-width:520px}.variant-options span{font-size:14px}.reading-section,.control-footnote{max-width:520px}.model-message{padding:var(--s5)}.model-message h2{font-size:26px}.model-message p{font-size:14px}.paired-controls{grid-template-columns:1fr 1fr}.views{grid-template-columns:repeat(4,minmax(0,1fr))}.views button{padding:9px 5px;overflow-wrap:anywhere}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
+.joint-view{width:100%;margin:0 0 var(--s3);font-size:12px}
+.human-facing label{display:block;margin:var(--s3) 0 var(--s2)}
+
+.v5-ui-hidden .app-header,.v5-ui-hidden .controls,.v5-ui-hidden .stage-title,.v5-ui-hidden .gesture,.v5-ui-hidden .stage-footer,.v5-ui-hidden .skip-link{display:none!important}.v5-ui-hidden .workspace{display:block;height:100svh;min-height:0}.v5-ui-hidden .stage{height:100svh;min-height:0}#floorLayout{width:100%;margin-top:12px}#floorFamilyList{padding-left:20px;font-size:12px}.stage-footer{flex-wrap:wrap}.stage-footer p{flex:1 1 180px}@media(max-width:760px){.stage-footer p{flex:1 0 100%;max-width:100%}.gesture{bottom:124px}}
+
+#r1Preview{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#151410;pointer-events:none}#viewport #r1Preview{background:#f4f1e9}#r1Preview[hidden]{display:none!important}#cargando{background:transparent;text-shadow:0 1px 6px #000}#modelMessage{background:transparent}#modelMessage>div{background:#fffdf8eb;padding:20px 24px;border-radius:4px}
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#controls">Ir a los controles del modelo</a>
+  <header class="app-header">
+    <a class="brand" href="INICIO.html">CORAL-ES <span>V5</span></a>
+    <p>Modelo interactivo V5 · 17 módulos · tres garfios G</p>
+    <nav aria-label="Explorar CORAL-ES"><a href="INICIO.html">Inicio</a></nav>
+  </header>
+  <main class="workspace">
+    <section class="stage" id="viewport" aria-labelledby="modelTitle">
+      <div class="stage-title"><h1 id="modelTitle">El banco en espiral.</h1><p id="modelDimensions">1,5 vueltas · entrada a la derecha · ancho exterior 6 m</p></div>
+      <canvas id="scene" tabindex="0" aria-label="Modelo 3D del banco" aria-describedby="keyboardHelp"></canvas>
+<img id="r1Preview" src="assets/interactivos_r1/preview_model_r1.webp" alt="" width="1100" height="619" decoding="async" fetchpriority="high">
+      <div class="model-message" id="modelMessage" role="status">
+        <div><h2 id="messageTitle">Preparando el modelo…</h2><p id="messageText">Los recursos de esta entrega funcionan sin internet.</p>
+          <div id="errorActions" hidden><button id="retry" type="button">Volver a cargar</button><a href="INICIO.html">Volver al inicio</a></div>
+        </div>
+      </div>
+      <p id="keyboardHelp" class="gesture">Arrastra para girar · rueda para acercar · clic para identificar.<br>Teclado en el modelo: flechas para girar, + / − para acercar, Inicio para encuadrar, Esc para quitar la selección. H para ocultar o mostrar los controles.</p>
+      <div class="stage-footer"><p id="status" role="status" aria-live="polite">Preparando datos…</p><button type="button" id="frame">Encuadrar</button><button type="button" id="hideInterface" aria-pressed="false">Ocultar controles · H</button></div>
+      <noscript><div class="no-script"><h2>El modelo necesita JavaScript.</h2><p>Activa JavaScript para explorar el modelo o vuelve al <a href="INICIO.html">inicio</a>.</p></div></noscript>
+    </section>
+
+    <aside class="controls" id="controls" aria-label="Controles y lectura del modelo" tabindex="-1">
+      <form id="viewForm">
+        <h2>Explorar el banco</h2>
+        <fieldset class="variant-control"><legend>Unión entre módulos</legend><div class="variant-options">
+          <label><input type="radio" name="variant" value="G" checked><span><b>G</b>3 garfios · principal</span></label>
+<label><input type="radio" name="variant" value="T"><span><b>T</b>Pernos · alternativa</span></label>
+<label><input type="radio" name="variant" value="R"><span><b>R</b>Rieles · alternativa</span></label>
+
+
+        </div></fieldset>
+        <p id="variantDescription" class="control-note">Tres garfios G: insertar 40 mm, descender 20 mm y colocar seguros. T/R son alternativas secundarias.</p>
+        <label for="feet" hidden>Patas fijas</label><select id="feet" hidden><option value="fixed">Patas fijas</option></select>
+        <div class="paired-controls"><div><label for="module">Ver módulo</label><select id="module"><option value="all">Conjunto completo</option></select></div><div><label for="joint">Ver encuentro</label><select id="joint"><option value="">Ninguno</option></select></div></div>
+        <div class="views" role="group" aria-label="Vistas del modelo">
+          <button type="button" data-view="perspective" aria-pressed="true">Perspectiva</button><button type="button" data-view="top" aria-pressed="false">Planta</button><button type="button" data-view="front" aria-pressed="false">Perfil</button><button type="button" data-view="side" aria-pressed="false">Lateral</button>
+        </div>
+        <button type="button" data-view="joint" id="jointView" class="joint-view" aria-pressed="false">Acercar al encastre</button>
+        <div class="check-controls"><label><input type="checkbox" id="structure">Ver estructura y lastre</label><label hidden><input type="checkbox" id="covers" disabled>Acceso superior sin puertas laterales</label></div>
+        <label for="explode" class="range-label">Despiece <output id="explodeValue" for="explode">0 %</output></label><input type="range" id="explode" min="0" max="100" step="1" value="0">
+        <button type="button" id="layeredModule" aria-pressed="false">Despiece por capas</button>
+<p class="control-note">Un módulo a la vez, con la tapa alineada sobre la estructura y las costillas completas.</p>
+<p class="control-note" id="nativeTextureNote">Acabado visible: madera y/o chapilla Flor Morado. Explora el módulo por capas o por pasos de armado.</p>
+<details id="moduleGuideDetails" class="reading-section">
+ <summary>Armado de un módulo</summary>
+ <div class="assembly-reading">
+  <button type="button" id="moduleGuideToggle" aria-pressed="false">Mostrar armado del módulo</button>
+  <div class="step-controls"><button type="button" id="moduleGuidePrevious">Anterior</button><p id="moduleGuideCount" aria-live="polite"></p><button type="button" id="moduleGuideNext">Siguiente</button></div>
+  <h3 id="moduleGuideTitle"></h3><p id="moduleGuideText"></p>
+  <p class="control-note">Las piezas anteriores ya están montadas. La capa actual se separa para explicar dónde encaja.</p>
+ </div>
+</details>
+
+<button type="button" id="floorLayout" aria-pressed="false">Piezas en el suelo</button><p class="control-note">Disposición ordenada de un módulo G, con los marcos completos.</p><div class="check-controls"><label><input type="checkbox" id="separateMembers">Detalle de listones individuales</label></div><details id="floorFamilies" hidden><summary>Orden de armado de las piezas</summary><ol id="floorFamilyList"></ol></details><div class="check-controls human-control"><label><input type="checkbox" id="humans">Añadir escala humana</label></div>
+        <div id="humanDensityField" class="human-facing" hidden><label for="humanDensity">Personas por módulo</label><select id="humanDensity"><option value="single">Una por módulo · 17 en el conjunto</option><option value="double">Dos por módulo · 34 en el conjunto</option></select></div>
+        <div id="humanFacingField" class="human-facing" hidden><label for="humanFacing">Personas sentadas mirando hacia</label><select id="humanFacing"><option value="mixed">Alternadas · dentro y fuera</option><option value="inside">Todas hacia el interior</option><option value="outside">Todas hacia el exterior</option></select></div>
+        <p id="humanSummary" class="control-note" hidden>Referencias ilustrativas de proporción; no acreditan aforo ni accesibilidad.</p>
+        <button type="button" id="reset" class="text-button">Restablecer la exploración</button>
+      </form>
+
+      <details id="assemblyDetails" class="reading-section">
+        <summary>Montar la unión paso a paso</summary>
+        <div class="details-body">
+          <p id="assemblySummary"></p>
+          <p id="assemblyContext" class="control-note">La secuencia muestra un encuentro de dos módulos.</p>
+          <button type="button" id="assemblyToggle" aria-pressed="false">Mostrar secuencia en el modelo</button>
+          <p class="control-note">La secuencia aísla dos módulos para explicar el encuentro G. Los desplazamientos se muestran de forma explicativa.</p>
+          <ol id="stepList" class="step-list" aria-label="Pasos del montaje"></ol>
+          <div class="step-controls"><button type="button" id="previous">Anterior</button><p id="stepCount" aria-live="polite"></p><button type="button" id="next">Siguiente</button></div>
+          <h3 id="stepTitle"></h3><p id="stepText"></p><p id="stepCheck" class="control-note"></p>
+          <a id="unionImage" href="assets/interactivos_r1/union_G_r1.png" target="_blank" rel="noopener">Ver detalle de la unión G</a>
+        </div>
+      </details>
+
+      <details id="pieceDetails" class="reading-section">
+        <summary>Identificar una pieza</summary>
+        <div class="details-body">
+          <label for="search">Buscar por función, ID o material</label><input type="search" id="search" placeholder="Por ejemplo: lastre, M08, perno">
+          <label for="pieceSelect">Piezas de la vista actual</label><select id="pieceSelect"><option value="">Selecciona una pieza</option></select>
+          <p id="partCount" class="control-note"></p>
+          <div id="partInfo" aria-live="polite"><p>Haz clic en el modelo o elige una pieza en la lista. La ficha muestra el mismo ID que los planos.</p></div>
+          <button type="button" id="clearSelection" class="text-button" hidden>Quitar selección</button>
+        </div>
+      </details>
+
+      <div class="control-footnote"><p>Propuesta para revisión y prototipo.</p><p>Las verificaciones digitales no acreditan resistencia ni habilitan uso público. Los apoyos, el lastre y las uniones requieren revisión y ensayos físicos.</p><a id="glbLink" href="#" download>Descargar el modelo mostrado · GLB</a></div>
+    </aside>
+  </main>
+
+
+
+<script id="offlineAssets" type="application/json">{"chunks":[{"sha256":"bdc6a39dca882139f145753c5e1ff264c6be737a0eeea504607140094bb5c8ff","bytes":15171020,"gzip":"model:chunk:0"},{"sha256":"b93da231b79311abbaadc324bf4e31cd1099d0e2e883cbd221830108a3740769","bytes":20900640,"gzip":"model:chunk:1"},{"sha256":"9bc06390b6aeb1a3fc83451667af7c9f06f62c4dd827616f8d22f08204c86643","bytes":15058588,"gzip":"model:chunk:2"}],"models":{"CORALES_G_fixed.glb":{"chunks":[0],"bytes":15171020,"sha256":"bdc6a39dca882139f145753c5e1ff264c6be737a0eeea504607140094bb5c8ff"},"CORALES_T_fixed.glb":{"chunks":[1],"bytes":20900640,"sha256":"b93da231b79311abbaadc324bf4e31cd1099d0e2e883cbd221830108a3740769"},"CORALES_R_fixed.glb":{"chunks":[2],"bytes":15058588,"sha256":"9bc06390b6aeb1a3fc83451667af7c9f06f62c4dd827616f8d22f08204c86643"}},"design":"model:design","native_wood":{"kind":"wood","dimensions":[64,1024,64],"tiles_x":32,"vector_scale":[3,48,4],"noise_scale":3.0,"noise_detail":2.0,"noise_roughness":0.5,"ramp_positions":[0.15,0.85],"ramp_dark":[0.24,0.115,0.045],"ramp_light":[0.6,0.37,0.18],"average_albedo":[0.42,0.2425,0.1125],"display_modulation_exponent":0.45,"detail_mix":0.85,"roughness":0.55,"roughness_variation":0.08,"format":"uint8 R, linear native Noise factor; x fastest, then y, then z","bytes":4194304,"source":"Native Blender Noise Texture sampled by Cycles EMIT, no colour transform","sha256":"a42a4b4af834fd45584cb8b15e42df374ebb92d9ed04790b93db6bf0c4745239","seconds":2.063813399989158,"value_min":30,"value_max":218,"value_std":22.095760856986875,"gzip":"model:native_wood"},"native_generated":"model:native_generated","union_images":{"G":"assets/interactivos_r1/union_G_r1.png","T":"assets/interactivos_r1/union_T_r1.png","R":"assets/interactivos_r1/union_R_r1.png"},"display_layout":"model:display_layout"}</script>
+<script src="assets/interactivos_r1/web_assets_r1.js"></script>
+<script>CORAL_R1.configure({"pano:centro":{"file":"assets/interactivos_r1/resource_pano_centro_r1.js"},"pano:entrada":{"file":"assets/interactivos_r1/resource_pano_entrada_r1.js"},"pano:lateral":{"file":"assets/interactivos_r1/resource_pano_lateral_r1.js"},"pano:estaciones":{"file":"assets/interactivos_r1/resource_pano_estaciones_r1.js"},"walk:model":{"file":"assets/interactivos_r1/resource_walk_model_r1.js"},"walk:detail":{"file":"assets/interactivos_r1/resource_walk_detail_r1.js"},"model:chunk:0":{"file":"assets/interactivos_r1/resource_model_chunk_0_r1.js"},"model:chunk:1":{"file":"assets/interactivos_r1/resource_model_chunk_1_r1.js"},"model:chunk:2":{"file":"assets/interactivos_r1/resource_model_chunk_2_r1.js"},"model:design":{"file":"assets/interactivos_r1/resource_model_design_r1.js"},"model:native_generated":{"file":"assets/interactivos_r1/resource_model_native_generated_r1.js"},"model:display_layout":{"file":"assets/interactivos_r1/resource_model_display_layout_r1.js"},"model:native_wood":{"file":"assets/interactivos_r1/resource_model_native_wood_r1.js"}});</script>
+<script defer src="assets/interactivos_r1/three_local_r1.js"></script>
+<script defer src="assets/interactivos_r1/model_app_r1.js"></script>
+</body>
+</html>

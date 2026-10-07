@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CORAL-ES · Mirar desde distintos puntos</title><style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#151410;color:#f3eedf;font-family:Arial,sans-serif}
+canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab;outline:none}canvas:active{cursor:grabbing}canvas:focus-visible{outline:3px solid #f1b354;outline-offset:-3px}
+header{position:absolute;top:25px;left:30px;pointer-events:none;text-shadow:0 1px 9px #000}h1{font:32px Georgia,serif;margin:0 0 8px;letter-spacing:1px}header p{font-size:13px;margin:0;color:#e4dccb}
+nav{position:absolute;bottom:66px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:8px;background:#14130ee0;border:1px solid #b7864538;border-radius:6px;max-width:calc(100vw - 24px);flex-wrap:wrap;justify-content:center}
+button,select{border:1px solid #b99057;background:#1d1b16;color:#f5efdf;padding:11px 15px;font:13px Arial,sans-serif;border-radius:3px;cursor:pointer;white-space:nowrap}button:hover,button[aria-pressed=true]{background:#edb357;color:#18150f}button:focus-visible,select:focus-visible{outline:3px solid #f4d68c;outline-offset:3px}nav label{font:12px Arial,sans-serif;color:#e4dccb}
+button:disabled{opacity:.5;cursor:default}
+footer{position:absolute;left:16px;right:16px;bottom:16px;text-align:center;font-size:12px;color:#eee5d6;text-shadow:0 1px 8px #000;pointer-events:none}
+#cargando,#fallback{position:absolute;inset:0;background:#14130f;display:grid;place-content:center;text-align:center;padding:30px;font:18px Georgia,serif}#fallback a{color:#f1b354}#cargando[hidden],#fallback[hidden]{display:none}
+#fallback_image{max-width:85vw;max-height:55vh;object-fit:contain;margin:0 auto 18px}
+@media(max-width:600px){header{top:18px;left:18px}h1{font-size:25px}header p{font-size:11px}nav{bottom:82px;width:calc(100vw - 24px)}button,select{padding:10px 12px}footer{font-size:11px;line-height:1.4}}
+
+.clean-view header,.clean-view nav,.clean-view footer,.clean-view #persona,.clean-view #instrucciones,.clean-view #movil{display:none!important}
+.clean-view #fallback p,.clean-view #fallback a{display:none}
+.chrome-toggle{position:absolute;right:12px;bottom:12px;z-index:20;width:34px;height:34px;padding:7px;border:1px solid #f4dbb73b;border-radius:50%;background:#16120d55;color:#fff4dd;opacity:.16;transition:opacity .2s,background .2s;cursor:pointer;touch-action:manipulation}
+.chrome-toggle:hover,.chrome-toggle:focus-visible{opacity:1;background:#16120dcc}.chrome-toggle:focus-visible{outline:2px solid #f4d68c;outline-offset:3px}.chrome-toggle svg{display:block;width:18px;height:18px;pointer-events:none}
+.chrome-toggle[aria-pressed=true]{background:#16120d55;color:#fff4dd}.chrome-toggle[aria-pressed=true]:hover,.chrome-toggle[aria-pressed=true]:focus-visible{background:#16120dcc}
+@media(pointer:coarse){.chrome-toggle{width:40px;height:40px;padding:10px;opacity:.35}}
+
+#r1Preview{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#151410;pointer-events:none}#viewport #r1Preview{background:#f4f1e9}#r1Preview[hidden]{display:none!important}#cargando{background:transparent;text-shadow:0 1px 6px #000}#modelMessage{background:transparent}#modelMessage>div{background:#fffdf8eb;padding:20px 24px;border-radius:4px}
+</style><!-- The MIT License
+
+Copyright © 2010-2026 three.js authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+ --></head>
+<body><canvas id="vista" tabindex="0" aria-label="Vista panorámica de la instalación."></canvas>
+<img id="r1Preview" src="assets/interactivos_r1/preview_360_r1.webp" alt="" width="1100" height="619" decoding="async" fetchpriority="high">
+<button id="interfaz" class="chrome-toggle" type="button" aria-pressed="false" aria-label="Ocultar interfaz (H)" title="Ocultar interfaz (H)"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></button>
+<header><h1>CORAL-ES</h1><p>Mirar desde distintos puntos · panorámicas 360°<br>Arrastra para mirar · H oculta o muestra la interfaz</p></header>
+<div id="cargando" role="status">Abriendo el espacio…</div>
+<div id="fallback" hidden><p id="fallo">La vista necesita WebGL.</p><img id="fallback_image" src="assets/interactivos_r1/preview_360_r1.webp" alt="Panorámica completa del punto seleccionado"><a id="alternativa">Guardar la panorámica completa</a></div>
+<nav aria-label="Controles de la panorámica"><label for="punto">Punto de vista</label><select id="punto"><option value="centro">Centro</option><option value="entrada">Entrada</option><option value="lateral">Lateral</option><option value="estaciones">Estaciones</option></select><button id="acercar" aria-label="Acercar">+</button><button id="alejar" aria-label="Alejar">−</button><button id="volver">Vista inicial</button><button id="recorrer" aria-pressed="false">Recorrer</button><button id="pantalla">Pantalla completa</button></nav>
+<footer><span id="estado" role="status">Cargando la panorámica…</span></footer>
+
+<script src="assets/interactivos_r1/web_assets_r1.js"></script>
+<script>CORAL_R1.configure({"pano:centro":{"file":"assets/interactivos_r1/resource_pano_centro_r1.js"},"pano:entrada":{"file":"assets/interactivos_r1/resource_pano_entrada_r1.js"},"pano:lateral":{"file":"assets/interactivos_r1/resource_pano_lateral_r1.js"},"pano:estaciones":{"file":"assets/interactivos_r1/resource_pano_estaciones_r1.js"},"walk:model":{"file":"assets/interactivos_r1/resource_walk_model_r1.js"},"walk:detail":{"file":"assets/interactivos_r1/resource_walk_detail_r1.js"},"model:chunk:0":{"file":"assets/interactivos_r1/resource_model_chunk_0_r1.js"},"model:chunk:1":{"file":"assets/interactivos_r1/resource_model_chunk_1_r1.js"},"model:chunk:2":{"file":"assets/interactivos_r1/resource_model_chunk_2_r1.js"},"model:design":{"file":"assets/interactivos_r1/resource_model_design_r1.js"},"model:native_generated":{"file":"assets/interactivos_r1/resource_model_native_generated_r1.js"},"model:display_layout":{"file":"assets/interactivos_r1/resource_model_display_layout_r1.js"},"model:native_wood":{"file":"assets/interactivos_r1/resource_model_native_wood_r1.js"}});</script>
+<script defer src="assets/interactivos_r1/three_local_r1.js"></script>
+<script defer src="assets/interactivos_r1/panorama_app_r1.js"></script>
+</body></html>
